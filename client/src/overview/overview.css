@@ -1,0 +1,21 @@
+.tableRow {
+    background-color: #ececec;
+    text-align: center;
+    margin-bottom: 25px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 40px;
+    border-radius: 25px;
+    max-width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-button {
+    color: inherit;
+}
+
+.exercise-title {
+    color: #393939;
+}
