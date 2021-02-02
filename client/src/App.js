@@ -5,8 +5,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
-// import Exercise from './exercise/Exercise';
-// import Home from './home/Home';
+import Exercise from './exercise/Exercise';
+import Home from './home/Home';
 import Overview from './overview/Overview';
 import "./App.css";
 
@@ -30,9 +30,9 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <Switch>
-            {/* <Route exact path='/' render={() => {return (<Redirect to="/home" />)}}><Home /></Route> */}
+            <Route exact path='/' render={() => {return (<Redirect to="/home" />)}}><Home /></Route>
             <Route exact path='/overzicht'><Overview /></Route>
-            {/* <Route exact path='/oefening/:exercise' component={ Exercise }/> */}
+            <Route exact path='/oefening/:exercise' component={ Exercise }/>
           </Switch>
         </BrowserRouter>
       </div>

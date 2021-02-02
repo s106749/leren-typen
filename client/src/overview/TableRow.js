@@ -10,11 +10,11 @@ export default class TableRow extends Component {
         return (
             <Container  className="tableRow">
                 <h3 className="exercise-title">Oefening {this.props.value.id}</h3>
-                {/* <Link className="nav-button" to={'/oefening/' + this.props.value.id}>
+                <Link className="nav-button" to={'/oefening/' + this.props.value.id}>
                     <Button variant="contained" color="primary">
                         Ga naar oefening
                     </Button>
-                </Link> */}
+                </Link>
             </Container>
         )
     }

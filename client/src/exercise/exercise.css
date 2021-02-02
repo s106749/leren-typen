@@ -1,0 +1,42 @@
+.characters-to-type {
+    border-radius: 25px;
+    background: #ececec;
+    padding: 5px;
+    text-align: center;
+    font-size: xx-large;
+    color: #393939;
+    max-width: 60%;
+    height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+}
+
+.simple-keyboard {
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.incorrect-character {
+    display: inline;
+    color: red;
+}
+
+.first {
+    display: inline;
+    color: green;
+}
+
+.middle {
+    display: inline;
+}
+
+.last {
+    display: inline;
+}
+
+.layout {
+    float: left;
+    margin-left: 50px;
+}
