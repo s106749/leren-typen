@@ -19,3 +19,15 @@
 .exercise-title {
     color: #393939;
 }
+
+.difficulty-easy {
+    color: green;
+}
+
+.difficulty-medium {
+    color: orange;
+}
+
+.difficulty-hard {
+    color: red;
+}

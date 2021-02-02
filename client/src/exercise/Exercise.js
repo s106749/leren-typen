@@ -9,6 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import Keyboard from "react-simple-keyboard";
 import CharactersToType from './CharactersToType';
+import Button from '@material-ui/core/Button';
 import "react-simple-keyboard/build/css/index.css";
 import "./exercise.css";
 
@@ -20,15 +21,22 @@ export default class Exercise extends Component {
             characters: "",
             key: 0,
             layoutName: "azerty",
-            isCorrect: true
+            isCorrect: true,
+            nextExercise: 0
         }
     }
 
     componentDidMount() {
         axios.post('/servers/getById', { id: this.props.match.params.exercise })
             .then(response => {
-                this.setState({ characters: response.data[0].list })
-                this.setState({ key: 0 })
+                if (response.data[0] === undefined) {
+                    this.props.history.push("/overzicht")
+                }
+                else {
+                    this.setState({ characters: response.data[0].list })
+                    this.setState({ key: 0 })
+                    this.setState({ nextExercise: parseInt(this.props.match.params.exercise) + 1 })
+                }
             })
             .catch(function (error) {
                 console.log(error)
@@ -43,7 +51,7 @@ export default class Exercise extends Component {
         const characters = this.state.characters;
         const key = this.state.key;
         if (characters.length > key) {
-            if(character === "space"){
+            if (character === "space") {
                 character = " ";
             }
             if (characters[key] === character) {
@@ -55,6 +63,9 @@ export default class Exercise extends Component {
                 this.setState({ isCorrect: false });
             }
         }
+        if (characters.length === parseInt(key) + 1) {
+            console.log("oefening is klaar");
+        }
     }
 
     render() {
@@ -64,8 +75,8 @@ export default class Exercise extends Component {
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Toetsenbord indeling</FormLabel>
                         <RadioGroup aria-label="layout" value={this.state.layoutName} onChange={this.handleChangeLayout}>
-                            <FormControlLabel value="azerty" control={<Radio color="primary"/>} label="Azerty" />
-                            <FormControlLabel value="qwerty" control={<Radio color="primary"/>} label="Qwerty" />
+                            <FormControlLabel value="azerty" control={<Radio color="primary" />} label="Azerty" />
+                            <FormControlLabel value="qwerty" control={<Radio color="primary" />} label="Qwerty" />
                         </RadioGroup>
                     </FormControl>
                 </Container>
@@ -95,6 +106,13 @@ export default class Exercise extends Component {
                         ]
                     }}
                 />
+                <Container className="nav-button-exercise">
+                    <a className="nav-button" href={'/oefening/' + this.state.nextExercise}>
+                        <Button variant="contained" color="primary">
+                            Ga naar volgende oefening
+                    </Button>
+                    </a>
+                </Container>
             </Container>
         )
     }

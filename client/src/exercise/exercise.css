@@ -40,3 +40,13 @@
     float: left;
     margin-left: 50px;
 }
+
+.nav-button {
+    color: inherit;
+}
+
+.nav-button-exercise {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
