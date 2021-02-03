@@ -9,8 +9,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import Keyboard from "react-simple-keyboard";
 import CharactersToType from './CharactersToType';
-
-import NextExercise from './NextExercise';
 import "react-simple-keyboard/build/css/index.css";
 import "./exercise.css";
 
@@ -22,14 +20,12 @@ export default class Exercise extends Component {
             characters: "",
             key: 0,
             layoutName: "azerty",
-            isCorrect: true,
-            currentId: window.location.pathname.substring(10),
-            nextExerciseId: 0
+            isCorrect: true
         }
     }
 
     componentDidMount() {
-        axios.post('/servers/getById', { id: this.state.currentId })
+        axios.post('/servers/getById', { id: this.props.match.params.exercise })
             .then(response => {
                 if (response.data[0] === undefined) {
                     this.props.history.push("/overzicht")
@@ -37,7 +33,6 @@ export default class Exercise extends Component {
                 else {
                     this.setState({ characters: response.data[0].list })
                     this.setState({ key: 0 })
-                    this.setState({ nextExerciseId: parseInt(this.state.currentId) + 1})
                 }
             })
             .catch(function (error) {
@@ -108,7 +103,6 @@ export default class Exercise extends Component {
                         ]
                     }}
                 />
-                <NextExercise nextExerciseId={this.state.nextExerciseId}/>
             </Container>
         )
     }
