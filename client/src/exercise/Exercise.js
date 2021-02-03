@@ -9,7 +9,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
 import Keyboard from "react-simple-keyboard";
 import CharactersToType from './CharactersToType';
-import Button from '@material-ui/core/Button';
+
+import NextExercise from './NextExercise';
 import "react-simple-keyboard/build/css/index.css";
 import "./exercise.css";
 
@@ -22,12 +23,13 @@ export default class Exercise extends Component {
             key: 0,
             layoutName: "azerty",
             isCorrect: true,
-            nextExercise: 0
+            currentId: window.location.pathname.substring(10),
+            nextExerciseId: 0
         }
     }
 
     componentDidMount() {
-        axios.post('/servers/getById', { id: this.props.match.params.exercise })
+        axios.post('/servers/getById', { id: this.state.currentId })
             .then(response => {
                 if (response.data[0] === undefined) {
                     this.props.history.push("/overzicht")
@@ -35,7 +37,7 @@ export default class Exercise extends Component {
                 else {
                     this.setState({ characters: response.data[0].list })
                     this.setState({ key: 0 })
-                    this.setState({ nextExercise: parseInt(this.props.match.params.exercise) + 1 })
+                    this.setState({ nextExerciseId: parseInt(this.state.currentId) + 1})
                 }
             })
             .catch(function (error) {
@@ -106,13 +108,7 @@ export default class Exercise extends Component {
                         ]
                     }}
                 />
-                <Container className="nav-button-exercise">
-                    <a className="nav-button" href={'/oefening/' + this.state.nextExercise}>
-                        <Button variant="contained" color="primary">
-                            Ga naar volgende oefening
-                    </Button>
-                    </a>
-                </Container>
+                <NextExercise nextExerciseId={this.state.nextExerciseId}/>
             </Container>
         )
     }
