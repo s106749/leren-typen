@@ -20,7 +20,11 @@ export default class Exercise extends Component {
             characters: "",
             key: 0,
             layoutName: "azerty",
-            isCorrect: true
+            isCorrect: true,
+            nextExerciseId: parseInt(this.props.match.params.exercise) + 1,
+            mistakes: 0,
+            characterMistake: false,
+            amountCharacterMistakes: 0
         }
     }
 
@@ -31,8 +35,7 @@ export default class Exercise extends Component {
                     this.props.history.push("/overzicht")
                 }
                 else {
-                    this.setState({ characters: response.data[0].list })
-                    this.setState({ key: 0 })
+                    this.setState({ characters: response.data[0].list, key: 0 })
                 }
             })
             .catch(function (error) {
@@ -44,6 +47,18 @@ export default class Exercise extends Component {
         this.setState({ layoutName: event.target.value })
     };
 
+    redirectResultsPage = () => {
+        this.props.history.push({
+            pathname: "/resultaten",
+            results: {
+                nextExerciseId: this.state.nextExerciseId,
+                mistakes: this.state.mistakes,
+                amountCharacterMistakes: this.state.amountCharacterMistakes,
+                amountCharactersTotal: this.state.characters.length
+            }
+        })
+    }
+
     onChangeInput = character => {
         const characters = this.state.characters;
         const key = this.state.key;
@@ -52,16 +67,17 @@ export default class Exercise extends Component {
                 character = " ";
             }
             if (characters[key] === character) {
-                var number = this.state.key + 1;
-                this.setState({ key: number });
-                this.setState({ isCorrect: true });
+                this.setState({ key: this.state.key + 1, isCorrect: true, characterMistake: false });
             }
             else {
-                this.setState({ isCorrect: false });
+                if (!this.state.characterMistake) {
+                    this.setState({ amountCharacterMistakes: this.state.amountCharacterMistakes + 1 });
+                }
+                this.setState({ isCorrect: false, mistakes: this.state.mistakes + 1, characterMistake: true });
             }
         }
-        if (characters.length === parseInt(key) + 1) {
-            console.log("oefening is klaar");
+        if (characters.length === parseInt(key) + 1 && this.state.isCorrect) {
+            this.redirectResultsPage();
         }
     }
 
@@ -106,4 +122,4 @@ export default class Exercise extends Component {
             </Container>
         )
     }
-}   
+}
